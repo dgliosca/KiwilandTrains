@@ -1,9 +1,11 @@
 package com.kiwilandtrainservice
 
+import com.kiwilandtrainservice.testing.A
+import com.kiwilandtrainservice.testing.B
+import com.kiwilandtrainservice.testing.C
 import com.natpryce.hamkrest.*
 import com.natpryce.hamkrest.assertion.assertThat
 import org.junit.jupiter.api.Test
-import java.util.stream.DoubleStream
 
 class TrainServiceTest {
 
@@ -13,10 +15,6 @@ class TrainServiceTest {
 
         assertThat(trainService.stations(), equalTo(emptySet()))
     }
-
-    private val A = Station("A")
-    private val B = Station("B")
-    private val C = Station("C")
 
     @Test
     fun `build a train service with two stations`() {
