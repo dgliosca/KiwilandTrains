@@ -61,6 +61,14 @@ class TrainService(routes: String) {
         ).minByOrNull { totalDistanceOfRoute(*it.toTypedArray()) }
             ?: throw IllegalStateException("NO SUCH ROUTE")
 
+    fun routesWithMaxDistance(source: Station, destination: Station, maxDistance: Int) =
+        findRoutes(
+            source,
+            destination,
+            validPath = { partialRoute -> partialRoute.last() == destination && partialRoute.size > 1 },
+            stopCondition = { partialRoute -> totalDistanceOfRoute(*partialRoute.toTypedArray()) >= maxDistance }
+        )
+
     fun lengthShortestRoute(source: Station, destination: Station) =
         totalDistanceOfRoute(*findShortestRoute(source, destination).toTypedArray())
 
