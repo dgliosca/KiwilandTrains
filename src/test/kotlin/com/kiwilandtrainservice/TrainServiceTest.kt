@@ -3,6 +3,7 @@ package com.kiwilandtrainservice
 import com.kiwilandtrainservice.testing.A
 import com.kiwilandtrainservice.testing.B
 import com.kiwilandtrainservice.testing.C
+import com.kiwilandtrainservice.testing.D
 import com.natpryce.hamkrest.*
 import com.natpryce.hamkrest.assertion.assertThat
 import org.junit.jupiter.api.Test
@@ -91,6 +92,15 @@ class TrainServiceTest {
         val trainService = TrainService("AB1, BC1, CA1")
         assertThat(
             trainService.findRoutesWithMaxStops(source = A, destination = C, maxStops = 1),
+            equalTo(listOf())
+        )
+    }
+
+    @Test
+    fun `cannot find route with max N stops when towns are disconnected`() {
+        val trainService = TrainService("AB1, CD1")
+        assertThat(
+            trainService.findRoutesWithMaxStops(source = A, destination = D, maxStops = 1),
             equalTo(listOf())
         )
     }
