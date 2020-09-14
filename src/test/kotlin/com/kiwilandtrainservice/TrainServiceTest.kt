@@ -128,4 +128,12 @@ class TrainServiceTest {
             hasTheSameElementsAs(emptyList())
         )
     }
+
+    @Test
+    fun `find shortest route`() {
+        val trainService = TrainService("AB1, BC1, CD1, DA1, CA1")
+        val expected = listOf(A, B, C, A)
+        assertThat(trainService.findShortestRoute(source = A, destination = A), equalTo(expected))
+        assertThat(trainService.totalDistanceOfRoute(*expected.toTypedArray()), equalTo(3))
+    }
 }
