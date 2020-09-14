@@ -73,16 +73,16 @@ class TrainRoutesTest {
         )
     }
 
-    @Disabled
     @Test
     fun `The length of the shortest route (in terms of distance to travel) from A to C`() {
-        fail("Non implemented yet")
+        val result = trainService.lengthShortestRoute(A, C)
+        assertThat(result, equalTo(9))
     }
 
-    @Disabled
     @Test
     fun `The length of the shortest route (in terms of distance to travel) from B to B`() {
-        fail("Non implemented yet")
+        val result = trainService.lengthShortestRoute(B, B)
+        assertThat(result, equalTo(9))
     }
 
     @Disabled

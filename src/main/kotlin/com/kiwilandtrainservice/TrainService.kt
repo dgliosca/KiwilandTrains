@@ -52,7 +52,7 @@ class TrainService(routes: String) {
             validPath = { partialRoute -> partialRoute.size == stops + 1 && partialRoute.last() == destination }
         )
 
-    fun findShortestRoute(source: Station, destination: Station): List<Station>? {
+    fun findShortestRoute(source: Station, destination: Station): List<Station> {
         return findRoutes(
             source,
             destination,
@@ -61,6 +61,9 @@ class TrainService(routes: String) {
         ).minByOrNull { totalDistanceOfRoute(*it.toTypedArray()) }
             ?: throw IllegalStateException("NO SUCH ROUTE")
     }
+
+    fun lengthShortestRoute(source: Station, destination: Station)  =
+        totalDistanceOfRoute(*findShortestRoute(source, destination).toTypedArray())
 
     private fun <E> List<E>.containsDuplicates() = this.size != this.distinct().count()
 
