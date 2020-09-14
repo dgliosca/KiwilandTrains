@@ -10,7 +10,7 @@ class TrainServiceTest {
     fun `build an empty train service`() {
         val trainService = TrainService()
 
-        assertThat(trainService.stations(), equalTo(emptyList()))
+        assertThat(trainService.stations(), equalTo(emptySet()))
     }
 
     class TrainService {
