@@ -20,21 +20,19 @@ class TrainService(routes: String) {
 
     fun stations() = routes.flatMap { route -> listOf(route.source, route.destination) }.toSet()
 
-    fun findDirectRoute(source: Station, destination: Station): Route? {
-        return routes
+    fun findDirectRoute(source: Station, destination: Station) =
+        routes
             .filter { it.source == source }
             .find { it.destination == destination }
-    }
 
-    fun totalDistanceOfRoute(vararg stations: Station): Int {
-        return stations.toList()
+    fun totalDistanceOfRoute(vararg stations: Station) =
+        stations.toList()
             .windowed(2)
             .map {
                 val source = it.first()
                 val destination = it.last()
                 findDirectRoute(source, destination)?.distance ?: throw IllegalStateException("NO SUCH ROUTE")
             }.sum()
-    }
 
     fun findRoutesWithMaxStops(source: Station, destination: Station, maxStops: Int) =
         findRoutes(
