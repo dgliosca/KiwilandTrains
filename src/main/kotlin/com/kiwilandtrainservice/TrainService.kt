@@ -36,8 +36,8 @@ class TrainService(routes: String) {
             }.sum()
     }
 
-    fun findRoutesWithMaxStops(source: Station, destination: Station, maxStops: Int): List<List<Station>> {
-        return findRoutes(
+    fun findRoutesWithMaxStops(source: Station, destination: Station, maxStops: Int) =
+        findRoutes(
             source,
             destination,
             maxStops,
@@ -45,10 +45,9 @@ class TrainService(routes: String) {
             stopCondition = { partialRoute -> partialRoute.size > maxStops + 1 },
             validPath = { it.last() == destination && it.size > 1 && it.size <= maxStops + 1 }
         )
-    }
 
     fun findRoutesWithNStops(source: Station, destination: Station, stops: Int) =
-        findRoutesForExactlyNStops(
+        findRoutes(
             source,
             destination,
             stops,
@@ -77,35 +76,6 @@ class TrainService(routes: String) {
                     station,
                     destination,
                     maxStops,
-                    partialRoute + station,
-                    stopCondition,
-                    validPath
-                )
-            )
-        }
-        return allRoutes
-    }
-
-    private fun findRoutesForExactlyNStops(
-        source: Station,
-        destination: Station,
-        stops: Int,
-        partialRoute: List<Station>,
-        stopCondition: (List<Station>) -> Boolean,
-        validPath: (List<Station>) -> Boolean
-    ): List<List<Station>> {
-        val allRoutes = mutableListOf<List<Station>>()
-        if (stopCondition(partialRoute))
-            return allRoutes
-        if (validPath(partialRoute)) {
-            allRoutes.add(partialRoute.toList())
-        }
-        for (station in adjacentStationsOf(source)) {
-            allRoutes.addAll(
-                findRoutesForExactlyNStops(
-                    station,
-                    destination,
-                    stops,
                     partialRoute + station,
                     stopCondition,
                     validPath
