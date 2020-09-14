@@ -56,7 +56,6 @@ class TrainRoutesTest {
         )
     }
 
-
     @Test
     fun `The number of trips starting at A and ending at C with exactly 4 stops`() {
         val result = trainService.findRoutesWithNStops(A, C, 4)
