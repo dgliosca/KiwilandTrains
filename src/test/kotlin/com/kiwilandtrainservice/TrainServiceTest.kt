@@ -1,9 +1,6 @@
 package com.kiwilandtrainservice
 
-import com.kiwilandtrainservice.testing.A
-import com.kiwilandtrainservice.testing.B
-import com.kiwilandtrainservice.testing.C
-import com.kiwilandtrainservice.testing.D
+import com.kiwilandtrainservice.testing.*
 import com.natpryce.hamkrest.*
 import com.natpryce.hamkrest.assertion.assertThat
 import org.junit.jupiter.api.Test
@@ -102,6 +99,15 @@ class TrainServiceTest {
         assertThat(
             trainService.findRoutesWithMaxStops(source = A, destination = D, maxStops = 1),
             equalTo(listOf())
+        )
+    }
+
+    @Test
+    fun `find route with exactly N stops`() {
+        val trainService = TrainService("AB1, BC1, CA1")
+        assertThat(
+            trainService.findRoutesWithNStops(source = A, destination = C, stops = 2),
+            hasTheSameElementsAs(listOf(listOf(A, B, C)))
         )
     }
 }
