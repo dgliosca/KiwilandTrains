@@ -55,7 +55,7 @@ class TrainServiceTest {
     fun `total distance of a route`() {
         val trainService = TrainService("AB1, BC2")
 
-        assertThat(trainService.totalDistanceOfARoute(A, B, C), equalTo(3))
+        assertThat(trainService.totalDistanceOfRoute(A, B, C), equalTo(3))
     }
 
     @Test
@@ -63,7 +63,7 @@ class TrainServiceTest {
         val trainService = TrainService("AB1, BC2")
 
         assertThat(
-            { trainService.totalDistanceOfARoute(A, C) },
+            { trainService.totalDistanceOfRoute(A, C) },
             throws(has(IllegalStateException::message, equalTo("NO SUCH ROUTE")))
         )
     }

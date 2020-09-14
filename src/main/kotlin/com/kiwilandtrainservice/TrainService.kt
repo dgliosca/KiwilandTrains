@@ -26,7 +26,7 @@ class TrainService(routes: String) {
             .find { it.destination == destination }
     }
 
-    fun totalDistanceOfARoute(vararg stations: Station): Int {
+    fun totalDistanceOfRoute(vararg stations: Station): Int {
         return stations.toList()
             .windowed(2)
             .map {
