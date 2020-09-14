@@ -43,6 +43,13 @@ class TrainServiceTest {
 
         assertThat(trainService.findDirectRoute(Station("A"), Station("C")), absent())
     }
+    
+    @Test
+    fun `distance between two connected stations`() {
+        val trainService = TrainService("AB1, BC2")
+
+        assertThat(trainService.findDirectRoute(Station("A"), Station("B"))?.distance, equalTo(1))
+    }
 
     class TrainService(routes: String) {
         private val routes: Set<Route>
@@ -56,7 +63,8 @@ class TrainServiceTest {
                     .map { rawRoute ->
                         val source = rawRoute[0].toString()
                         val destination = rawRoute[1].toString()
-                        Route(Station(source), Station(destination))
+                        val distance = rawRoute.drop(2).toInt()
+                        Route(Station(source), Station(destination), distance)
                     }.toSet()
             }
         }
@@ -71,6 +79,6 @@ class TrainServiceTest {
     }
 }
 
-data class Route(val source: Station, val destination: Station)
+data class Route(val source: Station, val destination: Station, val distance: Int)
 
 data class Station(val name: String)
