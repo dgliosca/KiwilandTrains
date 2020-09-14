@@ -5,3 +5,5 @@ import com.kiwilandtrainservice.Station
 val A = Station("A")
 val B = Station("B")
 val C = Station("C")
+val D = Station("D")
+val E = Station("E")

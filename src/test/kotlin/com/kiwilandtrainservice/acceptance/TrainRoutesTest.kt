@@ -1,11 +1,11 @@
 package com.kiwilandtrainservice.acceptance
 
 import com.kiwilandtrainservice.TrainService
-import com.kiwilandtrainservice.testing.A
-import com.kiwilandtrainservice.testing.B
-import com.kiwilandtrainservice.testing.C
+import com.kiwilandtrainservice.testing.*
 import com.natpryce.hamkrest.assertion.assertThat
 import com.natpryce.hamkrest.equalTo
+import com.natpryce.hamkrest.has
+import com.natpryce.hamkrest.throws
 import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
 import kotlin.test.junit5.JUnit5Asserter.fail
@@ -19,28 +19,30 @@ class TrainRoutesTest {
         assertThat(result, equalTo(9))
     }
 
-    @Disabled
     @Test
     fun `The distance of the route A-D`() {
-        fail("Non implemented yet")
+        val result = trainService.totalDistanceOfRoute(A, D)
+        assertThat(result, equalTo(5))
     }
 
-    @Disabled
     @Test
     fun `The distance of the route A-D-C`() {
-        fail("Non implemented yet")
+        val result = trainService.totalDistanceOfRoute(A, D, C)
+        assertThat(result, equalTo(13))
     }
 
-    @Disabled
     @Test
     fun `The distance of the route A-E-B-C-D`() {
-        fail("Non implemented yet")
+        val result = trainService.totalDistanceOfRoute(A, E, B, C, D)
+        assertThat(result, equalTo(22))
     }
 
-    @Disabled
     @Test
     fun `The distance of the route A-E-D`() {
-        fail("Non implemented yet")
+        assertThat(
+            { trainService.totalDistanceOfRoute(A, E, D) },
+            throws(has(IllegalStateException::message, equalTo("NO SUCH ROUTE")))
+        )
     }
 
     @Disabled
