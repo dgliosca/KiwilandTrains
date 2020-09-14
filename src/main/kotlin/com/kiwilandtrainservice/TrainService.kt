@@ -35,4 +35,26 @@ class TrainService(routes: String) {
                 findDirectRoute(source, destination)?.distance ?: throw IllegalStateException("NO SUCH ROUTE")
             }.sum()
     }
+
+    fun findRoutesWithMaxStops(source: Station, destination: Station, maxStops: Int): List<List<Station>> {
+        return findRoutes(source, destination, maxStops, mutableListOf(source))
+    }
+
+    private fun findRoutes(source: Station, destination: Station, maxStops: Int, partialRoute: MutableList<Station>): List<List<Station>> {
+        val allRoutes = mutableListOf<List<Station>>()
+        if (partialRoute.size > maxStops + 1)
+            return allRoutes
+        if (partialRoute.last() == destination && partialRoute.size <= maxStops + 1) {
+            allRoutes.add(partialRoute.toList())
+        }
+        for (station in adjacentStationsOf(source)) {
+            allRoutes.addAll(findRoutes(station, destination, maxStops, partialRoute.apply { add(station)}))
+        }
+        return allRoutes
+    }
+
+    private fun adjacentStationsOf(station: Station) =
+        routes
+            .filter { it.source == station }
+            .map { it.destination }
 }

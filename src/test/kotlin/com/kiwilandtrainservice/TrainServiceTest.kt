@@ -68,4 +68,13 @@ class TrainServiceTest {
         )
     }
 
+    @Test
+    fun `find routes between two stations with maximum N stops`() {
+        val trainService = TrainService("AB1, BC2")
+        assertThat(
+            trainService.findRoutesWithMaxStops(source = A, destination = C, maxStops = 2),
+            equalTo(listOf(listOf(A, B, C)))
+        )
+    }
+
 }
