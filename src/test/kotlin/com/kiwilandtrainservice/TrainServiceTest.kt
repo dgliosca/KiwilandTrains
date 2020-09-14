@@ -1,9 +1,7 @@
 package com.kiwilandtrainservice
 
-import com.natpryce.hamkrest.absent
+import com.natpryce.hamkrest.*
 import com.natpryce.hamkrest.assertion.assertThat
-import com.natpryce.hamkrest.equalTo
-import com.natpryce.hamkrest.present
 import org.junit.jupiter.api.Test
 import java.util.stream.DoubleStream
 
@@ -56,6 +54,16 @@ class TrainServiceTest {
         val trainService = TrainService("AB1, BC2")
 
         assertThat(trainService.totalDistanceOfARoute(Station("A"), Station("B"), Station("C")), equalTo(3))
+    }
+
+    @Test
+    fun `cannot calculate total distance of a route that doesn't exist`() {
+        val trainService = TrainService("AB1, BC2")
+
+        assertThat(
+            { trainService.totalDistanceOfARoute(Station("A"), Station("C")) },
+            throws(has(IllegalStateException::message, equalTo("NO SUCH ROUTE")))
+        )
     }
 
     class TrainService(routes: String) {
