@@ -37,10 +37,10 @@ class TrainService(routes: String) {
     }
 
     fun findRoutesWithMaxStops(source: Station, destination: Station, maxStops: Int): List<List<Station>> {
-        return findRoutes(source, destination, maxStops, mutableListOf(source))
+        return findRoutes(source, destination, maxStops, listOf(source))
     }
 
-    private fun findRoutes(source: Station, destination: Station, maxStops: Int, partialRoute: MutableList<Station>): List<List<Station>> {
+    private fun findRoutes(source: Station, destination: Station, maxStops: Int, partialRoute: List<Station>): List<List<Station>> {
         val allRoutes = mutableListOf<List<Station>>()
         if (partialRoute.size > maxStops + 1)
             return allRoutes
@@ -48,7 +48,7 @@ class TrainService(routes: String) {
             allRoutes.add(partialRoute.toList())
         }
         for (station in adjacentStationsOf(source)) {
-            allRoutes.addAll(findRoutes(station, destination, maxStops, partialRoute.apply { add(station)}))
+            allRoutes.addAll(findRoutes(station, destination, maxStops, partialRoute + station))
         }
         return allRoutes
     }
