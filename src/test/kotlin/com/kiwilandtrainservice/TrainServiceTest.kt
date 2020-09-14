@@ -104,5 +104,4 @@ class TrainServiceTest {
             equalTo(listOf())
         )
     }
-
 }

@@ -45,10 +45,17 @@ class TrainRoutesTest {
         )
     }
 
-    @Disabled
     @Test
     fun `The number of trips starting at C and ending at C with a maximum of 3 stops`() {
-        fail("Non implemented yet")
+        val result = trainService.findRoutesWithMaxStops(C, C, maxStops = 3)
+        assertThat(
+            result, hasTheSameElementsAs(
+                listOf(
+                    listOf(C, D, C),
+                    listOf(C, E, B, C)
+                )
+            )
+        )
     }
 
     @Disabled
