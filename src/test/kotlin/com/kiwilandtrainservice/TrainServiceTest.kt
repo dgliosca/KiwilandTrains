@@ -77,4 +77,13 @@ class TrainServiceTest {
         )
     }
 
+    @Test
+    fun `find routes when source stations is the same as the destination`() {
+        val trainService = TrainService("AB1, BC1, CA1")
+        assertThat(
+            trainService.findRoutesWithMaxStops(source = A, destination = A, maxStops = 3),
+            equalTo(listOf(listOf(A, B, C, A)))
+        )
+    }
+
 }

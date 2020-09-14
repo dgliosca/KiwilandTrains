@@ -44,7 +44,7 @@ class TrainService(routes: String) {
         val allRoutes = mutableListOf<List<Station>>()
         if (partialRoute.size > maxStops + 1)
             return allRoutes
-        if (partialRoute.last() == destination && partialRoute.size <= maxStops + 1) {
+        if (partialRoute.last() == destination && partialRoute.size > 1 && partialRoute.size <= maxStops + 1) {
             allRoutes.add(partialRoute.toList())
         }
         for (station in adjacentStationsOf(source)) {
