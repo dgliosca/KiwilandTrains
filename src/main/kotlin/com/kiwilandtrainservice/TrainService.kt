@@ -45,7 +45,8 @@ class TrainService(routes: String) {
             source,
             destination,
             stops,
-            listOf(source)
+            listOf(source),
+            stopCondition = { partialRoute -> stopConditionFoExactlyNStops(partialRoute, stops) }
         )
 
     private fun findRoutes(
@@ -70,19 +71,39 @@ class TrainService(routes: String) {
         source: Station,
         destination: Station,
         stops: Int,
-        partialRoute: List<Station>
+        partialRoute: List<Station>,
+        stopCondition: (List<Station>) -> Boolean
     ): List<List<Station>> {
         val allRoutes = mutableListOf<List<Station>>()
-        if (partialRoute.size > stops + 1)
+        if (stopCondition(partialRoute))
             return allRoutes
-        if (partialRoute.size == stops + 1 && partialRoute.last() == destination) {
+        if (validPathForExactlyNStops(partialRoute, stops, destination)) {
             allRoutes.add(partialRoute.toList())
         }
         for (station in adjacentStationsOf(source)) {
-            allRoutes.addAll(findRoutesForExactlyNStops(station, destination, stops, partialRoute + station))
+            allRoutes.addAll(
+                findRoutesForExactlyNStops(
+                    station,
+                    destination,
+                    stops,
+                    partialRoute + station,
+                    stopCondition
+                )
+            )
         }
         return allRoutes
     }
+
+    private fun stopConditionFoExactlyNStops(
+        partialRoute: List<Station>,
+        stops: Int
+    ) = partialRoute.size > stops + 1
+
+    private fun validPathForExactlyNStops(
+        partialRoute: List<Station>,
+        stops: Int,
+        destination: Station
+    ) = partialRoute.size == stops + 1 && partialRoute.last() == destination
 
     private fun adjacentStationsOf(station: Station) =
         routes
