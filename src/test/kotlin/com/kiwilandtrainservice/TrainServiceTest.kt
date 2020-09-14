@@ -1,5 +1,6 @@
 package com.kiwilandtrainservice
 
+import com.natpryce.hamkrest.absent
 import com.natpryce.hamkrest.assertion.assertThat
 import com.natpryce.hamkrest.equalTo
 import com.natpryce.hamkrest.present
@@ -34,6 +35,13 @@ class TrainServiceTest {
         val trainService = TrainService("AB1, BC2")
 
         assertThat(trainService.findDirectRoute(Station("A"), Station("B")), present())
+    }
+
+    @Test
+    fun `cannot find direct route between two stations`() {
+        val trainService = TrainService("AB1, BC2")
+
+        assertThat(trainService.findDirectRoute(Station("A"), Station("C")), absent())
     }
 
     class TrainService(routes: String) {
