@@ -2,7 +2,9 @@ package com.kiwilandtrainservice
 
 import com.natpryce.hamkrest.assertion.assertThat
 import com.natpryce.hamkrest.equalTo
+import com.natpryce.hamkrest.present
 import org.junit.jupiter.api.Test
+import java.util.stream.DoubleStream
 
 class TrainServiceTest {
 
@@ -27,25 +29,40 @@ class TrainServiceTest {
         assertThat(trainService.stations(), equalTo(setOf(Station("A"), Station("B"), Station("C"))))
     }
 
+    @Test
+    fun `find direct route between two stations`() {
+        val trainService = TrainService("AB1, BC2")
+
+        assertThat(trainService.findDirectRoute(Station("A"), Station("B")), present())
+    }
+
     class TrainService(routes: String) {
-        private val stations: Set<Station>
+        private val routes: Set<Route>
 
         init {
-            stations = if (routes.isEmpty()) {
+            this.routes = if (routes.isEmpty()) {
                 emptySet()
             } else {
                 routes.split(",")
                     .map { it.trim() }
-                    .flatMap { rawRoute ->
+                    .map { rawRoute ->
                         val source = rawRoute[0].toString()
                         val destination = rawRoute[1].toString()
-                        setOf(Station(source), Station(destination))
+                        Route(Station(source), Station(destination))
                     }.toSet()
             }
         }
 
-        fun stations() = stations
+        fun stations() = routes.flatMap { route -> listOf(route.source, route.destination) }.toSet()
+
+        fun findDirectRoute(source: Station, destination: Station): Route? {
+            return routes
+                .filter { it.source == source }
+                .find { it.destination == destination }
+        }
     }
 }
+
+data class Route(val source: Station, val destination: Station)
 
 data class Station(val name: String)
