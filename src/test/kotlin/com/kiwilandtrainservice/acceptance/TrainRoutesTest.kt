@@ -1,15 +1,22 @@
 package com.kiwilandtrainservice.acceptance
 
+import com.kiwilandtrainservice.TrainService
+import com.kiwilandtrainservice.testing.A
+import com.kiwilandtrainservice.testing.B
+import com.kiwilandtrainservice.testing.C
+import com.natpryce.hamkrest.assertion.assertThat
+import com.natpryce.hamkrest.equalTo
 import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
 import kotlin.test.junit5.JUnit5Asserter.fail
 
 class TrainRoutesTest {
+    private val trainService = TrainService("AB5, BC4, CD8, DC8, DE6, AD5, CE2, EB3, AE7")
 
-    @Disabled
     @Test
     fun `The distance of the route A-B-C`() {
-        fail("Non implemented yet")
+        val result = trainService.totalDistanceOfRoute(A, B, C)
+        assertThat(result, equalTo(9))
     }
 
     @Disabled
