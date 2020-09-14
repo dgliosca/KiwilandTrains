@@ -20,16 +20,27 @@ class TrainServiceTest {
         assertThat(trainService.stations(), equalTo(setOf(Station("A"), Station("B"))))
     }
 
-    class TrainService(route: String) {
+    @Test
+    fun `build a train service with three stations`() {
+        val trainService = TrainService("AB1, BC2")
+
+        assertThat(trainService.stations(), equalTo(setOf(Station("A"), Station("B"), Station("C"))))
+    }
+
+    class TrainService(routes: String) {
         private val stations: Set<Station>
 
         init {
-            stations = if (route.isEmpty()) {
+            stations = if (routes.isEmpty()) {
                 emptySet()
             } else {
-                val source = route[0].toString()
-                val destination = route[1].toString()
-                setOf(Station(source), Station(destination))
+                routes.split(",")
+                    .map { it.trim() }
+                    .flatMap { rawRoute ->
+                        val source = rawRoute[0].toString()
+                        val destination = rawRoute[1].toString()
+                        setOf(Station(source), Station(destination))
+                    }.toSet()
             }
         }
 
