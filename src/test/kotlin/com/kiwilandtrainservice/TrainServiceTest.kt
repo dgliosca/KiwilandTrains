@@ -121,7 +121,7 @@ class TrainServiceTest {
     }
 
     @Test
-    fun `cannot find routes with exactly N stops when soure same as destination`() {
+    fun `cannot find routes with exactly N stops when source same as destination`() {
         val trainService = TrainService("AB1, BC1, CA1")
         assertThat(
             trainService.findRoutesWithNStops(source = A, destination = A, stops = 2),
