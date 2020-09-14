@@ -37,7 +37,14 @@ class TrainService(routes: String) {
     }
 
     fun findRoutesWithMaxStops(source: Station, destination: Station, maxStops: Int): List<List<Station>> {
-        return findRoutes(source, destination, maxStops, listOf(source))
+        return findRoutes(
+            source,
+            destination,
+            maxStops,
+            listOf(source),
+            stopCondition = { partialRoute -> partialRoute.size > maxStops + 1 },
+            validPath = { validPath(it, destination, maxStops) }
+        )
     }
 
     fun findRoutesWithNStops(source: Station, destination: Station, stops: Int) =
@@ -54,19 +61,36 @@ class TrainService(routes: String) {
         source: Station,
         destination: Station,
         maxStops: Int,
-        partialRoute: List<Station>
+        partialRoute: List<Station>,
+        stopCondition: (List<Station>) -> Boolean,
+        validPath: (List<Station>) -> Boolean
     ): List<List<Station>> {
         val allRoutes = mutableListOf<List<Station>>()
-        if (stopCondition(partialRoute, maxStops))
+        if (stopCondition(partialRoute))
             return allRoutes
-        if (partialRoute.last() == destination && partialRoute.size > 1 && partialRoute.size <= maxStops + 1) {
+        if (validPath(partialRoute)) {
             allRoutes.add(partialRoute.toList())
         }
         for (station in adjacentStationsOf(source)) {
-            allRoutes.addAll(findRoutes(station, destination, maxStops, partialRoute + station))
+            allRoutes.addAll(
+                findRoutes(
+                    station,
+                    destination,
+                    maxStops,
+                    partialRoute + station,
+                    stopCondition,
+                    validPath
+                )
+            )
         }
         return allRoutes
     }
+
+    private fun validPath(
+        partialRoute: List<Station>,
+        destination: Station,
+        maxStops: Int
+    ) = partialRoute.last() == destination && partialRoute.size > 1 && partialRoute.size <= maxStops + 1
 
     private fun findRoutesForExactlyNStops(
         source: Station,
