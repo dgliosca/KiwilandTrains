@@ -43,7 +43,7 @@ class TrainService(routes: String) {
             maxStops,
             listOf(source),
             stopCondition = { partialRoute -> partialRoute.size > maxStops + 1 },
-            validPath = { validPath(it, destination, maxStops) }
+            validPath = { it.last() == destination && it.size > 1 && it.size <= maxStops + 1 }
         )
     }
 
@@ -85,12 +85,6 @@ class TrainService(routes: String) {
         }
         return allRoutes
     }
-
-    private fun validPath(
-        partialRoute: List<Station>,
-        destination: Station,
-        maxStops: Int
-    ) = partialRoute.last() == destination && partialRoute.size > 1 && partialRoute.size <= maxStops + 1
 
     private fun findRoutesForExactlyNStops(
         source: Station,
