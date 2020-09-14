@@ -10,56 +10,48 @@ class TrainServiceTest {
     @Test
     fun `build an empty train service`() {
         val trainService = TrainService("")
-
         assertThat(trainService.stations(), equalTo(emptySet()))
     }
 
     @Test
     fun `build a train service with two stations`() {
         val trainService = TrainService("AB1")
-
         assertThat(trainService.stations(), equalTo(setOf(A, B)))
     }
 
     @Test
     fun `build a train service with three stations`() {
         val trainService = TrainService("AB1, BC2")
-
         assertThat(trainService.stations(), equalTo(setOf(A, B, C)))
     }
 
     @Test
     fun `find direct route between two stations`() {
         val trainService = TrainService("AB1, BC2")
-
         assertThat(trainService.findDirectRoute(A, B), present())
     }
 
     @Test
     fun `cannot find direct route between two stations`() {
         val trainService = TrainService("AB1, BC2")
-
         assertThat(trainService.findDirectRoute(A, C), absent())
     }
 
     @Test
     fun `distance between two connected stations`() {
         val trainService = TrainService("AB1, BC2")
-
         assertThat(trainService.findDirectRoute(A, B)?.distance, equalTo(1))
     }
 
     @Test
     fun `total distance of a route`() {
         val trainService = TrainService("AB1, BC2")
-
         assertThat(trainService.totalDistanceOfRoute(A, B, C), equalTo(3))
     }
 
     @Test
     fun `cannot calculate total distance of a route that doesn't exist`() {
         val trainService = TrainService("AB1, BC2")
-
         assertThat(
             { trainService.totalDistanceOfRoute(A, C) },
             throws(has(IllegalStateException::message, equalTo("NO SUCH ROUTE")))
