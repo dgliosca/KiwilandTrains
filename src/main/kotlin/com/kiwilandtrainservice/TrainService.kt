@@ -40,7 +40,6 @@ class TrainService(routes: String) {
         findRoutes(
             source,
             destination,
-            maxStops,
             stopCondition = { partialRoute -> partialRoute.size > maxStops + 1 },
             validPath = { it.last() == destination && it.size > 1 && it.size <= maxStops + 1 }
         )
@@ -49,7 +48,6 @@ class TrainService(routes: String) {
         findRoutes(
             source,
             destination,
-            stops,
             stopCondition = { partialRoute -> partialRoute.size > stops + 1 },
             validPath = { partialRoute -> partialRoute.size == stops + 1 && partialRoute.last() == destination }
         )
@@ -57,7 +55,6 @@ class TrainService(routes: String) {
     private fun findRoutes(
         source: Station,
         destination: Station,
-        maxStops: Int,
         stopCondition: (List<Station>) -> Boolean,
         validPath: (List<Station>) -> Boolean,
         partialRoute: List<Station> = listOf(source)
@@ -73,7 +70,6 @@ class TrainService(routes: String) {
                 findRoutes(
                     station,
                     destination,
-                    maxStops,
                     stopCondition,
                     validPath,
                     partialRoute + station
