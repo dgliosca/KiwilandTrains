@@ -6,9 +6,7 @@ import com.natpryce.hamkrest.assertion.assertThat
 import com.natpryce.hamkrest.equalTo
 import com.natpryce.hamkrest.has
 import com.natpryce.hamkrest.throws
-import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
-import kotlin.test.junit5.JUnit5Asserter.fail
 
 class TrainRoutesTest {
     private val trainService = TrainService("AB5, BC4, CD8, DC8, DE6, AD5, CE2, EB3, AE7")
@@ -85,9 +83,21 @@ class TrainRoutesTest {
         assertThat(result, equalTo(9))
     }
 
-    @Disabled
     @Test
     fun `The number of different routes from C to C with a distance of less than 30`() {
-        fail("Non implemented yet")
+        val result = trainService.routesWithMaxDistance(C, C, maxDistance = 30)
+        assertThat(
+            result, hasTheSameElementsAs(
+                listOf(
+                    listOf(C, D, C),
+                    listOf(C, E, B, C),
+                    listOf(C, E, B, C, D, C),
+                    listOf(C, D, C, E, B, C),
+                    listOf(C, D, E, B, C),
+                    listOf(C, E, B, C, E, B, C),
+                    listOf(C, E, B, C, E, B, C, E, B, C)
+                )
+            )
+        )
     }
 }
