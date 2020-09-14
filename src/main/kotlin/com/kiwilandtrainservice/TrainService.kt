@@ -121,11 +121,6 @@ class TrainService(routes: String) {
         return allRoutes
     }
 
-    private fun stopCondition(
-        partialRoute: List<Station>,
-        maxStops: Int
-    ) = partialRoute.size > maxStops + 1
-
     private fun adjacentStationsOf(station: Station) =
         routes
             .filter { it.source == station }
