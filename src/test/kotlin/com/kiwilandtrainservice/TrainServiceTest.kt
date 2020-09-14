@@ -14,46 +14,50 @@ class TrainServiceTest {
         assertThat(trainService.stations(), equalTo(emptySet()))
     }
 
+    private val A = Station("A")
+    private val B = Station("B")
+    private val C = Station("C")
+
     @Test
     fun `build a train service with two stations`() {
         val trainService = TrainService("AB1")
 
-        assertThat(trainService.stations(), equalTo(setOf(Station("A"), Station("B"))))
+        assertThat(trainService.stations(), equalTo(setOf(A, B)))
     }
 
     @Test
     fun `build a train service with three stations`() {
         val trainService = TrainService("AB1, BC2")
 
-        assertThat(trainService.stations(), equalTo(setOf(Station("A"), Station("B"), Station("C"))))
+        assertThat(trainService.stations(), equalTo(setOf(A, B, C)))
     }
 
     @Test
     fun `find direct route between two stations`() {
         val trainService = TrainService("AB1, BC2")
 
-        assertThat(trainService.findDirectRoute(Station("A"), Station("B")), present())
+        assertThat(trainService.findDirectRoute(A, B), present())
     }
 
     @Test
     fun `cannot find direct route between two stations`() {
         val trainService = TrainService("AB1, BC2")
 
-        assertThat(trainService.findDirectRoute(Station("A"), Station("C")), absent())
+        assertThat(trainService.findDirectRoute(A, C), absent())
     }
 
     @Test
     fun `distance between two connected stations`() {
         val trainService = TrainService("AB1, BC2")
 
-        assertThat(trainService.findDirectRoute(Station("A"), Station("B"))?.distance, equalTo(1))
+        assertThat(trainService.findDirectRoute(A, B)?.distance, equalTo(1))
     }
 
     @Test
     fun `total distance of a route`() {
         val trainService = TrainService("AB1, BC2")
 
-        assertThat(trainService.totalDistanceOfARoute(Station("A"), Station("B"), Station("C")), equalTo(3))
+        assertThat(trainService.totalDistanceOfARoute(A, B, C), equalTo(3))
     }
 
     @Test
@@ -61,7 +65,7 @@ class TrainServiceTest {
         val trainService = TrainService("AB1, BC2")
 
         assertThat(
-            { trainService.totalDistanceOfARoute(Station("A"), Station("C")) },
+            { trainService.totalDistanceOfARoute(A, C) },
             throws(has(IllegalStateException::message, equalTo("NO SUCH ROUTE")))
         )
     }
@@ -105,5 +109,4 @@ class TrainServiceTest {
 }
 
 data class Route(val source: Station, val destination: Station, val distance: Int)
-
 data class Station(val name: String)
