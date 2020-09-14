@@ -85,7 +85,7 @@ class TrainService(routes: String) {
         if (validPath(partialRoute)) {
             allRoutes.add(partialRoute.toList())
         }
-        for (station in adjacentStationsOf(source)) {
+        adjacentStationsOf(source).forEach { station ->
             allRoutes.addAll(
                 findRoutes(
                     station,
