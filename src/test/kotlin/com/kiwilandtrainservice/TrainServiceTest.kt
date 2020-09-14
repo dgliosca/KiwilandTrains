@@ -43,12 +43,19 @@ class TrainServiceTest {
 
         assertThat(trainService.findDirectRoute(Station("A"), Station("C")), absent())
     }
-    
+
     @Test
     fun `distance between two connected stations`() {
         val trainService = TrainService("AB1, BC2")
 
         assertThat(trainService.findDirectRoute(Station("A"), Station("B"))?.distance, equalTo(1))
+    }
+
+    @Test
+    fun `total distance of a route`() {
+        val trainService = TrainService("AB1, BC2")
+
+        assertThat(trainService.totalDistanceOfARoute(Station("A"), Station("B"), Station("C")), equalTo(3))
     }
 
     class TrainService(routes: String) {
@@ -75,6 +82,16 @@ class TrainServiceTest {
             return routes
                 .filter { it.source == source }
                 .find { it.destination == destination }
+        }
+
+        fun totalDistanceOfARoute(vararg stations: Station): Int {
+            return stations.toList()
+                .windowed(2)
+                .map {
+                    val source = it.first()
+                    val destination = it.last()
+                    findDirectRoute(source, destination)?.distance ?: throw IllegalStateException("NO SUCH ROUTE")
+                }.sum()
         }
     }
 }
