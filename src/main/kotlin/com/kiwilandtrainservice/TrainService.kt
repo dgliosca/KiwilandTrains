@@ -41,7 +41,6 @@ class TrainService(routes: String) {
             source,
             destination,
             maxStops,
-            listOf(source),
             stopCondition = { partialRoute -> partialRoute.size > maxStops + 1 },
             validPath = { it.last() == destination && it.size > 1 && it.size <= maxStops + 1 }
         )
@@ -51,7 +50,6 @@ class TrainService(routes: String) {
             source,
             destination,
             stops,
-            listOf(source),
             stopCondition = { partialRoute -> partialRoute.size > stops + 1 },
             validPath = { partialRoute -> partialRoute.size == stops + 1 && partialRoute.last() == destination }
         )
@@ -60,9 +58,9 @@ class TrainService(routes: String) {
         source: Station,
         destination: Station,
         maxStops: Int,
-        partialRoute: List<Station>,
         stopCondition: (List<Station>) -> Boolean,
-        validPath: (List<Station>) -> Boolean
+        validPath: (List<Station>) -> Boolean,
+        partialRoute: List<Station> = listOf(source)
     ): List<List<Station>> {
         val allRoutes = mutableListOf<List<Station>>()
         if (stopCondition(partialRoute))
@@ -76,9 +74,9 @@ class TrainService(routes: String) {
                     station,
                     destination,
                     maxStops,
-                    partialRoute + station,
                     stopCondition,
-                    validPath
+                    validPath,
+                    partialRoute + station
                 )
             )
         }
