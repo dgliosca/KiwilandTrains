@@ -79,7 +79,7 @@ class TrainService(routes: String) {
             allRoutes.add(partialRoute.toList())
         }
         for (station in adjacentStationsOf(source)) {
-            allRoutes.addAll(findRoutes(station, destination, stops, partialRoute + station))
+            allRoutes.addAll(findRoutesForExactlyNStops(station, destination, stops, partialRoute + station))
         }
         return allRoutes
     }

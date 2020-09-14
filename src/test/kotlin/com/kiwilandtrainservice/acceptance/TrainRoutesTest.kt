@@ -58,10 +58,19 @@ class TrainRoutesTest {
         )
     }
 
-    @Disabled
+
     @Test
     fun `The number of trips starting at A and ending at C with exactly 4 stops`() {
-        fail("Non implemented yet")
+        val result = trainService.findRoutesWithNStops(A, C, 4)
+        assertThat(
+            result, hasTheSameElementsAs(
+                listOf(
+                    listOf(A, B, C, D, C),
+                    listOf(A, D, C, D, C),
+                    listOf(A, D, E, B, C)
+                )
+            )
+        )
     }
 
     @Disabled
