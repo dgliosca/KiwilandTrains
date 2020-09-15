@@ -13,6 +13,6 @@ dependencies {
     testImplementation(kotlin("test-junit5"))
     testImplementation("com.natpryce:hamkrest:1.7.0.3")
 }
-tasks.withType<KotlinCompile>() {
+tasks.withType<KotlinCompile> {
     kotlinOptions.jvmTarget = "1.8"
 }

@@ -1,5 +1,22 @@
 ## **Unattended Coding Problem: Trains**
 
+## Requirements
+
+*   Java 1.8
+*   Gradle 6.3
+*   Kotlin 1.4.10
+*   IntelliJ IDEA 2020.2.1 (CE)
+    
+To build the project go into the folder and type the following
+(if you do not have gradle already installed it will download it):
+
+    ./gradlew build
+    
+To run the tests:
+
+    ./gradle test
+    
+***
 The local commuter railroad services a number of towns in Kiwiland. Because of monetary concerns, all of the tracks are 'one-way.' That is, a route from Kaitaia to Invercargill does not imply the existence of a route from Invercargill to Kaitaia. In fact, even if both of these routes do happen to exist, they are distinct and are not necessarily the same distance!
 
 The purpose of this problem is to help the railroad provide its customers with information about the routes. In particular, you will compute the distance along a certain route, the number of different routes between two towns, and the shortest route between two towns.
