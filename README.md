@@ -14,7 +14,7 @@ To build the project go into the folder and type the following
     
 To run the tests:
 
-    ./gradle test
+    ./gradlew test
     
 ***
 The local commuter railroad services a number of towns in Kiwiland. Because of monetary concerns, all of the tracks are 'one-way.' That is, a route from Kaitaia to Invercargill does not imply the existence of a route from Invercargill to Kaitaia. In fact, even if both of these routes do happen to exist, they are distinct and are not necessarily the same distance!
