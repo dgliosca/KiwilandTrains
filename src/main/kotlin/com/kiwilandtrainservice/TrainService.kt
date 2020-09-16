@@ -56,7 +56,7 @@ class TrainService(routes: String) {
             destination,
             validPath = { partialRoute -> partialRoute.last() == destination && partialRoute.size > 1 },
             stopCondition = { partialRoute -> partialRoute.drop(1).containsDuplicates() }
-        ).minByOrNull { totalDistanceOfRoute(*it.toTypedArray()) }
+        ).minBy { totalDistanceOfRoute(*it.toTypedArray()) }
             ?: throw IllegalStateException("NO SUCH ROUTE")
 
     fun routesWithMaxDistance(source: Station, destination: Station, maxDistance: Int) =
