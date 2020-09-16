@@ -3,7 +3,6 @@
 gradle-app.setting
 !gradle-wrapper.jar
 *.class
-*.jar
 hs_err_pid*
 .idea/workspace.xml
 .idea/tasks.xml
