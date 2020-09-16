@@ -132,14 +132,14 @@ class TrainServiceTest {
     @Test
     fun `different routes with with max distance between two stations`() {
         val trainService = TrainService("AB1, BC1, CD1, DA1, CA1")
-        val result = trainService.routesWithMaxDistance(source = A, destination = A, 6)
+        val result = trainService.routesWithMaxDistance(source = A, destination = A, maxDistance = 6)
         assertThat(result, hasTheSameElementsAs(listOf(listOf(A, B, C, D, A), listOf(A, B, C, A))))
     }
 
     @Test
     fun `different routes with with max distance when there are multiple routes with same length`() {
         val trainService = TrainService("AB1, BC1, CD1, DA1, CA2")
-        val result = trainService.routesWithMaxDistance(source = A, destination = A, 5)
+        val result = trainService.routesWithMaxDistance(source = A, destination = A, maxDistance = 5)
         assertThat(result, hasTheSameElementsAs(listOf(listOf(A, B, C, A), listOf(A, B, C, D, A))))
     }
 }
